@@ -7,8 +7,8 @@
                     {{ $page.props.errors.content }}
                 </span>
                 <div class="flex items-center space-x-4 justify-end mt-3">
-                    <p class="text-sm text-gray-400 font-thin">200 caractères restants</p>
-                    <button-vue class="bg-blue-500 hover:bg-blue-800 rounded-full font-extrabold">Tweet</button-vue>
+                    <p class="text-sm text-gray-400 font-thin" :class="{ 'text-red-500' : remainingChars < 0 }">{{remainingChars}} caractères restants</p>
+                    <button-vue :disabled="!canSubmit" class="bg-blue-500 hover:bg-blue-800 rounded-full font-extrabold">Tweet</button-vue>
                 </div>
             </form>
         </div>
@@ -24,7 +24,8 @@
         },
         data() {
             return {
-                content: ''
+                content: '',
+                limit: 280
             }
         },
         methods: {
@@ -33,7 +34,23 @@
                     { content : this.content },
                     { preserveState: false }
                 )
-            }
+            },
+
+       },
+       computed:{
+           remainingChars() {
+               return this.limit - this.content.length
+           },
+           canSubmit() {
+               return this.content.length && this.remainingChars >= 0
+           }
        }
     }
 </script>
+
+<style scoped>
+    button:disabled {
+        opacity: 50%;
+        cursor: not-allowed;
+    }
+</style>
