@@ -23,7 +23,7 @@
                     <div class="text-sm text-gray-400 font-thin">{{ tweet.content }}</div>
                     </div>
                     
-                    <inertia-link class="bg-white text-blue-500 cursor-pointer px-5 py-2 hover:text-white border border-blue-500 leading-tight hover:bg-blue-500 rounded-full font-extrabold transition-all duration-300" preserve-scroll>Suivre</inertia-link>
+                    <!-- <inertia-link class="bg-white text-blue-500 cursor-pointer px-5 py-2 hover:text-white border border-blue-500 leading-tight hover:bg-blue-500 rounded-full font-extrabold transition-all duration-300" preserve-scroll>Suivre</inertia-link> -->
                     
                 </div>
             </div>

@@ -5205,6 +5205,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     ButtonVue: _Jetstream_Button_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      content: ''
+    };
+  },
+  methods: {
+    store: function store() {
+      this.$inertia.post('tweets', {
+        content: this.content
+      }, {
+        preserveState: false
+      });
+    }
   }
 });
 
@@ -34413,52 +34427,71 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "py-6" }, [
     _c("div", { staticClass: "max-w-3xl mx-auto sm:px-6 lg:px-8" }, [
-      _c("form", [
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.content,
-              expression: "content"
-            }
-          ],
-          staticClass:
-            "rounded-lg border border-gray-200 w-full p-2 font-semibold resize-none focus:outline-none",
-          attrs: { placeholder: "What's going on ?" },
-          domProps: { value: _vm.content },
+      _c(
+        "form",
+        {
           on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.content = $event.target.value
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.store($event)
             }
           }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "my-5 text-red-500" }),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex items-center space-x-4 justify-end mt-3" },
-          [
-            _c("p", { staticClass: "text-sm text-gray-400 font-thin" }, [
-              _vm._v("200 caractères restants")
-            ]),
-            _vm._v(" "),
-            _c(
-              "button-vue",
+        },
+        [
+          _c("textarea", {
+            directives: [
               {
-                staticClass:
-                  "bg-blue-500 hover:bg-blue-800 rounded-full font-extrabold"
-              },
-              [_vm._v("Tweet")]
-            )
-          ],
-          1
-        )
-      ])
+                name: "model",
+                rawName: "v-model",
+                value: _vm.content,
+                expression: "content"
+              }
+            ],
+            staticClass:
+              "rounded-lg border border-gray-200 w-full p-2 font-semibold resize-none focus:outline-none",
+            attrs: { placeholder: "What's going on ?" },
+            domProps: { value: _vm.content },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.content = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _vm.$page.props.errors
+            ? _c("span", { staticClass: "my-5 text-red-500" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.$page.props.errors.content) +
+                    "\n            "
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flex items-center space-x-4 justify-end mt-3" },
+            [
+              _c("p", { staticClass: "text-sm text-gray-400 font-thin" }, [
+                _vm._v("200 caractères restants")
+              ]),
+              _vm._v(" "),
+              _c(
+                "button-vue",
+                {
+                  staticClass:
+                    "bg-blue-500 hover:bg-blue-800 rounded-full font-extrabold"
+                },
+                [_vm._v("Tweet")]
+              )
+            ],
+            1
+          )
+        ]
+      )
     ])
   ])
 }
@@ -34557,19 +34590,8 @@ var render = function() {
                     { staticClass: "text-sm text-gray-400 font-thin" },
                     [_vm._v(_vm._s(tweet.content))]
                   )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "inertia-link",
-                  {
-                    staticClass:
-                      "bg-white text-blue-500 cursor-pointer px-5 py-2 hover:text-white border border-blue-500 leading-tight hover:bg-blue-500 rounded-full font-extrabold transition-all duration-300",
-                    attrs: { "preserve-scroll": "" }
-                  },
-                  [_vm._v("Suivre")]
-                )
-              ],
-              1
+                ])
+              ]
             )
           }),
           0
