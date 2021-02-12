@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -63,5 +64,25 @@ class User extends Authenticatable
     public function tweets()
     {
         return $this->hasMany(Tweet::class)->orderBy('created_at', 'DESC');
+    }
+
+    /**
+     * The followings that belong to the Tweet
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function followings(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'followings', 'follower_id', 'following_id');
+    }
+
+    /**
+     * The followers that belong to the Tweet
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'followings', 'following_id', 'follower_id');
     }
 }

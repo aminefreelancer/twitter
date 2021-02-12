@@ -5279,6 +5279,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -34674,7 +34675,30 @@ var render = function() {
                     { staticClass: "text-sm text-gray-400 font-thin" },
                     [_vm._v(_vm._s(tweet.content))]
                   )
-                ])
+                ]),
+                _vm._v(" "),
+                tweet.user.id !== _vm.$page.props.user.id
+                  ? _c(
+                      "div",
+                      [
+                        _c(
+                          "inertia-link",
+                          {
+                            staticClass:
+                              "bg-white text-blue-500 cursor-pointer px-5 py-2 hover:text-white border border-blue-500 leading-tight hover:bg-blue-500 rounded-full font-extrabold transition-all duration-300",
+                            attrs: {
+                              as: "button",
+                              method: "POST",
+                              href: "/follows/" + tweet.user.id,
+                              "preserve-scroll": ""
+                            }
+                          },
+                          [_vm._v("Suivre")]
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e()
               ]
             )
           }),
