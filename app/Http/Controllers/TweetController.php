@@ -41,15 +41,26 @@ class TweetController extends Controller
         return Redirect::route('tweets.index');   
     }
 
+    public function followings()
+    {
+        $followings = Tweet::with('user')
+        ->whereIn('user_id', auth()->user()->followings->pluck('id')->toArray())
+        ->orderBy('created_at', 'DESC')
+        ->get();
+        return Inertia::render('Tweets/Followings', [
+            'followings' => $followings
+        ]);
+    }
+
     public function follows(User $user)
     {
         auth()->user()->followings()->attach($user->id);
-        return Redirect::route('tweets.index');   
+        return redirect()->back();
     }
 
     public function unfollows(User $user)
     {
         auth()->user()->followings()->detach($user->id);
-        return Redirect::route('tweets.index');   
+        return redirect()->back();
     }
 }
