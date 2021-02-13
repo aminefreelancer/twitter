@@ -14,8 +14,13 @@ class TweetController extends Controller
 
     public function index()
     {
-        $tweets = Tweet::with('user')->orderBy('id', 'DESC')->get();
-        
+        $tweets = Tweet::with(['user' => function($q){ 
+            $q->withCount([
+                'followers as isFollowing' => function($q) { 
+                    $q->where('follower_id', auth()->user()->id);
+                }
+            ])->withCasts(['isFollowing' => 'boolean']);
+        }])->OrderBy('id', 'DESC')->get();
         return Inertia::render('Tweets/Index', [
             'tweets' => $tweets
         ]);
