@@ -41,6 +41,25 @@ class TweetController extends Controller
         return Redirect::route('tweets.index');   
     }
 
+    public function profile(User $user)
+    {
+        $user->loadCount([
+            'followers as isFollowing' => function($q){
+                $q->where('follower_id', '=', auth()->user()->id)->withCasts(['isFollowing' => 'boolean']);
+            },
+            'followings as is_following_you' => function($q) { 
+                $q->where('following_id', auth()->user()->id);
+            }
+        ]);
+
+        $tweets = $user->tweets;
+
+        return Inertia::render('Tweets/Profile', [
+            'profileUser' => $user,
+            'tweets' => $tweets
+        ]);
+    }
+
     public function followings()
     {
         $followings = Tweet::with('user')
